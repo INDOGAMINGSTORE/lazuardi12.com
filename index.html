@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Absensi SD Lazuardi</title>
+<style>
+body {
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#64b5f6,#2196f3);
+    margin:0; padding:0;
+}
+
+/* Header Logo + Nama Sekolah */
+.header {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 999;
+}
+.header img { width: 60px; height: 60px; }
+.header span { font-weight: bold; font-size: 20px; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+
+/* Tombol Navigasi ke Dashboard */
+.top-buttons {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.top-buttons button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    color:white;
+    background:#4caf50;
+}
+
+/* Container Absensi */
+.container {
+    max-width:500px;
+    margin:120px auto 30px;
+    background:#f0f8ff;
+    border-radius:12px;
+    padding:25px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.25);
+    text-align:center;
+}
+h2{color:#0d47a1;margin-bottom:20px;}
+
+/* Tombol nama & emoji rapi & tidak miring */
+.nama-btn, .emoji-btn, .action-btn{
+    margin:8px; padding:12px 20px; border:none; border-radius:8px;
+    font-weight:bold; font-size:16px; cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px;
+    transition: background 0.3s;
+    transform: none !important; /* penting: tombol tidak miring atau scale */
+}
+.nama-btn, .emoji-btn{background:#2196f3; color:white;}
+.nama-btn:hover, .emoji-btn:hover{background:#1976d2;}
+.nama-btn.active, .emoji-btn.active{background:#0d47a1;}
+.action-btn{background:#2196f3; color:white;}
+.action-btn:hover{background:#1976d2;}
+
+/* Preview emoji + nama animasi */
+.emoji-preview{
+    font-size:50px; margin:20px 0;
+    display:flex; justify-content:center; align-items:center;
+    gap:10px; font-weight:bold; color:#0d47a1;
+    transition: transform 0.3s;
+}
+
+/* Responsif */
+@media(max-width:400px){
+    .nama-btn, .emoji-btn, .action-btn{padding:10px 12px; font-size:14px;}
+    .header img{width:50px; height:50px;}
+    .header span{font-size:16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Header Logo + Nama Sekolah -->
+<div class="header">
+    <img src="download_Nero_AI_Image_Upscaler_Photo_Face.png" alt="Logo SD Lazuardi">
+    <span>SD Lazuardi</span>
+</div>
+
+<!-- Tombol Navigasi -->
+<div class="top-buttons">
+    <button onclick="window.location.href='dashboard_guru.html'">→ Dashboard Guru</button>
+</div>
+
+<div class="container">
+<h2>Absensi SD Lazuardi</h2>
+
+<p><strong>Pilih Nama:</strong></p>
+<div id="namaList">
+    <button class="nama-btn">Andi</button>
+    <button class="nama-btn">Budi</button>
+    <button class="nama-btn">Citra</button>
+    <button class="nama-btn">Dewi</button>
+</div>
+
+<p><strong>Pilih Emoji:</strong></p>
+<div id="emojiList">
+    <button class="emoji-btn" data-name="Happy">😊 Happy</button>
+    <button class="emoji-btn" data-name="Sad">😢 Sad</button>
+    <button class="emoji-btn" data-name="Angry">😡 Angry</button>
+    <button class="emoji-btn" data-name="Scared">😱 Scared</button>
+    <button class="emoji-btn" data-name="Tired">😴 Tired</button>
+    <button class="emoji-btn" data-name="Excited">🤩 Excited</button>
+</div>
+
+<!-- Preview emoji + nama -->
+<div class="emoji-preview" id="preview"><span>😄</span> <span>Happy</span></div>
+
+<!-- Tombol aksi -->
+<button class="action-btn" id="checkin">Check In</button>
+<button class="action-btn" id="checkout">Check Out</button>
+</div>
+
+<script>
+let selectedNama=null;
+let selectedEmoji=null;
+let selectedEmojiName=null;
+let absensiData=JSON.parse(localStorage.getItem('absensiData'))||[];
+
+// Pilih Nama
+document.querySelectorAll('.nama-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.nama-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedNama=btn.textContent;
+    });
+});
+
+// Pilih Emoji
+document.querySelectorAll('.emoji-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.emoji-btn').forEach(e=>e.classList.remove('active'));
+        btn.classList.add('active');
+        selectedEmoji=btn.textContent.split(' ')[0];
+        selectedEmojiName=btn.dataset.name;
+        const preview=document.getElementById('preview');
+        preview.innerHTML=`<span>${selectedEmoji}</span> <span>${selectedEmojiName}</span>`;
+        preview.style.transform="scale(1.2)";
+        setTimeout(()=>preview.style.transform="scale(1)",200);
+    });
+});
+
+// Check In / Check Out
+function handleAbsensi(status){
+    if(!selectedNama||!selectedEmoji){ alert('Klik nama dan emoji dulu ya!'); return; }
+    const waktu=new Date().toLocaleTimeString();
+    absensiData.push({nama:selectedNama,status:status,waktu:waktu,emoji:selectedEmoji,emojiName:selectedEmojiName});
+    localStorage.setItem('absensiData',JSON.stringify(absensiData));
+    window.dispatchEvent(new Event('absensiUpdated'));
+    alert(`${selectedNama} berhasil ${status} dengan emoji ${selectedEmoji} (${selectedEmojiName}) pada ${waktu}`);
+    // Reset pilihan
+    document.querySelectorAll('.nama-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.emoji-btn').forEach(e=>e.classList.remove('active'));
+    selectedNama=null; selectedEmoji=null; selectedEmojiName=null;
+    document.getElementById('preview').innerHTML=`<span>😄</span> <span>Happy</span>`;
+}
+
+document.getElementById('checkin').addEventListener('click',()=>handleAbsensi('Check In'));
+document.getElementById('checkout').addEventListener('click',()=>handleAbsensi('Check Out'));
+</script>
+</body>
+</html>

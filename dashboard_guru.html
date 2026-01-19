@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Guru - SD Lazuardi</title>
+<style>
+body{font-family:'Segoe UI',sans-serif; background:linear-gradient(135deg,#64b5f6,#2196f3);margin:0;padding:20px;}
+.container{max-width:950px;margin:80px auto 0 auto;background:#f0f8ff;border-radius:12px;padding:25px;box-shadow:0 6px 20px rgba(0,0,0,0.25);}
+h2{text-align:center;color:#0d47a1;margin-bottom:20px;}
+table{width:100%;border-collapse:collapse;margin-top:20px;font-size:16px;}
+th,td{padding:12px;border:1px solid #90caf9;text-align:center;}
+th{background:#2196f3;color:white;font-weight:bold;}
+.stats{margin-top:30px;}
+.stat-bar-container{margin:12px 0;background:#e3f2fd;border-radius:8px;overflow:hidden;height:35px;position:relative;}
+.stat-fill{height:100%;width:0%;line-height:35px;text-align:right;padding-right:10px;color:white;font-weight:bold;transition:width 1s ease-in-out;}
+.stat-happy{background:#42a5f5;}
+.stat-sad{background:#64b5f6;}
+.stat-angry{background:#1e88e5;}
+.stat-scared{background:#1976d2;}
+.stat-tired{background:#ffb74d;}
+.stat-excited{background:#ff8a65;}
+.stat-label{position:absolute;left:10px;top:0;height:100%;line-height:35px;font-weight:bold;color:#0d47a1;}
+button{margin:10px 5px;padding:10px 15px;border:none;border-radius:5px;font-weight:bold;cursor:pointer;background:#2196f3;color:white;transition:0.3s;}
+button:hover{background:#1565c0;}
+.top-buttons{position:fixed;top:15px;right:15px;display:flex;flex-direction:column;gap:10px;z-index:999;}
+.top-buttons button{padding:10px 18px;border-radius:8px;font-weight:bold;cursor:pointer;color:white;transition:all 0.3s; animation:colorShift 4s infinite alternate;}
+#btnAbsensi{background:#2196f3;}
+#btnReset{background:#f44336;}
+@keyframes colorShift{0%{filter:brightness(100%);}25%{filter:brightness(120%);}50%{filter:brightness(90%);}75%{filter:brightness(110%);}100%{filter:brightness(100%);}}
+</style>
+</head>
+<body>
+
+<div class="top-buttons">
+    <button id="btnAbsensi">→ Buka Absensi</button>
+    <button id="btnReset">Reset Data</button>
+</div>
+
+<div class="container">
+<h2>Dashboard Guru - SD Lazuardi</h2>
+
+<table id="absensiTable">
+<thead>
+<tr><th>Nama</th><th>Status</th><th>Waktu</th><th>Emoji</th></tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<div class="stats">
+<h3>Statistik Emoji</h3>
+<div class="stat-bar-container"><div class="stat-label">😊 Happy</div><div class="stat-fill stat-happy" id="bar-happy">0%</div></div>
+<div class="stat-bar-container"><div class="stat-label">😢 Sad</div><div class="stat-fill stat-sad" id="bar-sad">0%</div></div>
+<div class="stat-bar-container"><div class="stat-label">😡 Angry</div><div class="stat-fill stat-angry" id="bar-angry">0%</div></div>
+<div class="stat-bar-container"><div class="stat-label">😱 Scared</div><div class="stat-fill stat-scared" id="bar-scared">0%</div></div>
+<div class="stat-bar-container"><div class="stat-label">😴 Tired</div><div class="stat-fill stat-tired" id="bar-tired">0%</div></div>
+<div class="stat-bar-container"><div class="stat-label">🤩 Excited</div><div class="stat-fill stat-excited" id="bar-excited">0%</div></div>
+</div>
+
+<div style="text-align:center;margin-top:20px;"><button onclick="downloadExcel()">Download Excel</button></div>
+</div>
+
+<script>
+let absensiData = JSON.parse(localStorage.getItem('absensiData'))||[];
+
+document.getElementById('btnAbsensi').addEventListener('click',()=>{window.location.href="index.html";});
+document.getElementById('btnReset').addEventListener('click',()=>{
+    if(confirm('Yakin ingin reset semua data?')){
+        absensiData=[]; localStorage.removeItem('absensiData'); updateDashboard();
+    }
+});
+
+function getLastCheckPerSiswa(data){
+    let last={};
+    data.forEach(item=>last[item.nama]=item);
+    return Object.values(last);
+}
+
+function animateBarSmooth(bar,targetPercent){
+    let width=0;
+    const step=targetPercent/50;
+    bar.style.width='0%'; bar.textContent='0%';
+    const interval=setInterval(()=>{
+        width+=step;
+        if(width>=targetPercent){ width=targetPercent; clearInterval(interval);}
+        bar.style.width=width+'%';
+        bar.textContent=Math.round(width)+'%';
+    },20);
+}
+
+function updateDashboard(){
+    const tbody=document.querySelector('#absensiTable tbody'); tbody.innerHTML='';
+    let stats={'😊':0,'😢':0,'😡':0,'😱':0,'😴':0,'🤩':0};
+    absensiData.forEach(item=>stats[item.emoji]=(stats[item.emoji]||0)+1);
+    const total=absensiData.length||1;
+    getLastCheckPerSiswa(absensiData).forEach(item=>{
+        const row=document.createElement('tr');
+        row.innerHTML=`<td>${item.nama}</td><td>${item.status}</td><td>${item.waktu}</td><td>${item.emoji}</td>`;
+        tbody.appendChild(row);
+    });
+    animateBarSmooth(document.getElementById('bar-happy'),Math.round((stats['😊']/total)*100));
+    animateBarSmooth(document.getElementById('bar-sad'),Math.round((stats['😢']/total)*100));
+    animateBarSmooth(document.getElementById('bar-angry'),Math.round((stats['😡']/total)*100));
+    animateBarSmooth(document.getElementById('bar-scared'),Math.round((stats['😱']/total)*100));
+    animateBarSmooth(document.getElementById('bar-tired'),Math.round((stats['😴']/total)*100));
+    animateBarSmooth(document.getElementById('bar-excited'),Math.round((stats['🤩']/total)*100));
+}
+
+function downloadExcel(){
+    if(absensiData.length===0){ alert('Tidak ada data'); return; }
+    let csv='Nama,Status,Waktu,Emoji\n';
+    absensiData.forEach(item=>csv+=`${item.nama},${item.status},${item.waktu},${item.emoji}\n`);
+    const blob=new Blob([csv],{type:'text/csv'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download='absensi_sd_lazuardi.csv'; a.click(); URL.revokeObjectURL(url);
+}
+
+window.addEventListener('storage',()=>{
+    absensiData = JSON.parse(localStorage.getItem('absensiData'))||[];
+    updateDashboard();
+});
+window.addEventListener('absensiUpdated',()=>{
+    absensiData = JSON.parse(localStorage.getItem('absensiData'))||[];
+    updateDashboard();
+});
+
+updateDashboard();
+</script>
+</body>
+</html>
