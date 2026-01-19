@@ -4,32 +4,167 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Guru - SD Lazuardi</title>
+
 <style>
-body{font-family:'Segoe UI',sans-serif; background:linear-gradient(135deg,#64b5f6,#2196f3);margin:0;padding:20px;}
-.container{max-width:950px;margin:80px auto 0 auto;background:#f0f8ff;border-radius:12px;padding:25px;box-shadow:0 6px 20px rgba(0,0,0,0.25);}
-h2{text-align:center;color:#0d47a1;margin-bottom:20px;}
-table{width:100%;border-collapse:collapse;margin-top:20px;font-size:16px;}
-th,td{padding:12px;border:1px solid #90caf9;text-align:center;}
-th{background:#2196f3;color:white;font-weight:bold;}
-.stats{margin-top:30px;}
-.stat-bar-container{margin:12px 0;background:#e3f2fd;border-radius:8px;overflow:hidden;height:35px;position:relative;}
-.stat-fill{height:100%;width:0%;line-height:35px;text-align:right;padding-right:10px;color:white;font-weight:bold;transition:width 1s ease-in-out;}
-.stat-happy{background:#42a5f5;}
-.stat-sad{background:#64b5f6;}
-.stat-angry{background:#1e88e5;}
-.stat-scared{background:#1976d2;}
-.stat-tired{background:#ffb74d;}
-.stat-excited{background:#ff8a65;}
-.stat-label{position:absolute;left:10px;top:0;height:100%;line-height:35px;font-weight:bold;color:#0d47a1;}
-button{margin:10px 5px;padding:10px 15px;border:none;border-radius:5px;font-weight:bold;cursor:pointer;background:#2196f3;color:white;transition:0.3s;}
-button:hover{background:#1565c0;}
-.top-buttons{position:fixed;top:15px;right:15px;display:flex;flex-direction:column;gap:10px;z-index:999;}
-.top-buttons button{padding:10px 18px;border-radius:8px;font-weight:bold;cursor:pointer;color:white;transition:all 0.3s; animation:colorShift 4s infinite alternate;}
-#btnAbsensi{background:#2196f3;}
-#btnReset{background:#f44336;}
-@keyframes colorShift{0%{filter:brightness(100%);}25%{filter:brightness(120%);}50%{filter:brightness(90%);}75%{filter:brightness(110%);}100%{filter:brightness(100%);}}
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#64b5f6,#2196f3);
+    margin:0;padding:20px;
+}
+
+/* ===== TOP BUTTON ===== */
+.top-buttons{
+    position:fixed;top:15px;right:15px;
+    display:flex;flex-direction:column;gap:10px;
+    z-index:999;
+}
+.top-buttons button{
+    padding:10px 18px;
+    border:none;border-radius:12px;
+    font-weight:bold;cursor:pointer;color:white;
+}
+#btnAbsensi{background:#2196f3}
+#btnReset{background:#f44336}
+
+/* ===== CONTAINER ===== */
+.container{
+    max-width:1200px;
+    margin:90px auto;
+    background:#f0f8ff;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 6px 25px rgba(0,0,0,.25);
+    animation: slideCute .8s ease;
+}
+h2{
+    text-align:center;
+    color:#0d47a1;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ===== TABLE ===== */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+th,td{
+    padding:12px;
+    border:1px solid #90caf9;
+    text-align:center;
+}
+th{background:#2196f3;color:white}
+
+/* ===== BADGE ===== */
+.badge-masuk{
+    background:#4caf50;color:white;
+    padding:5px 10px;border-radius:10px;font-weight:bold;
+}
+.badge-pulang{
+    background:#ff7043;color:white;
+    padding:5px 10px;border-radius:10px;font-weight:bold;
+}
+
+/* ===== STATS ===== */
+.stats{margin-top:35px}
+.stat-title{font-weight:bold;color:#0d47a1;margin-bottom:10px}
+.stat-bar{
+    background:#e3f2fd;border-radius:10px;
+    overflow:hidden;height:30px;margin-bottom:12px;
+    position:relative;
+}
+.stat-fill{
+    height:100%;width:0%;
+    color:white;text-align:right;
+    padding-right:10px;line-height:30px;
+    font-weight:bold;transition:width .8s;
+}
+.label{
+    position:absolute;left:10px;
+    color:#0d47a1;font-weight:bold;
+}
+
+.happy{background:#42a5f5}
+.sad{background:#64b5f6}
+.angry{background:#1e88e5}
+.scared{background:#1976d2}
+.tired{background:#ffb74d}
+.excited{background:#ff8a65}
+
+/* ===== DOWNLOAD BUTTON ===== */
+.download-btns{
+    text-align:center;
+    margin-top:30px;
+}
+.download-btns button{
+    padding:12px 22px;
+    border:none;border-radius:14px;
+    font-weight:bold;
+    cursor:pointer;
+    color:white;
+    margin:8px;
+    font-size:16px;
+    transition:.3s;
+}
+.excel{background:#4caf50}
+.word{background:#1976d2}
+.download-btns button:hover{
+    transform:scale(1.08);
+}
+
+/* ===== DOWNLOAD ANIMATION ===== */
+.download-overlay{
+    position:fixed;inset:0;
+    background:rgba(33,150,243,.85);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+}
+.download-overlay.active{
+    opacity:1;
+    pointer-events:auto;
+}
+.download-box{
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    text-align:center;
+    animation: pop .6s ease;
+}
+.download-box span{
+    font-size:60px;
+    display:block;
+    animation: bounce 1.2s infinite;
+}
+.download-box p{
+    font-weight:bold;
+    color:#0d47a1;
+}
+
+/* ===== ANIMASI ===== */
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+@keyframes slideCute{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes pop{
+  from{transform:scale(.5);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
 </style>
 </head>
+
 <body>
 
 <div class="top-buttons">
@@ -38,93 +173,149 @@ button:hover{background:#1565c0;}
 </div>
 
 <div class="container">
-<h2>Dashboard Guru - SD Lazuardi</h2>
+<h2>🏫 Dashboard Kehadiran SD Lazuardi 🌟</h2>
 
-<table id="absensiTable">
+<table>
 <thead>
-<tr><th>Nama</th><th>Status</th><th>Waktu</th><th>Emoji</th></tr>
+<tr>
+    <th rowspan="2">Nama</th>
+    <th colspan="3">Check In</th>
+    <th colspan="3">Check Out</th>
+</tr>
+<tr>
+    <th>Status</th><th>Waktu</th><th>Emoji</th>
+    <th>Status</th><th>Waktu</th><th>Emoji</th>
+</tr>
 </thead>
-<tbody></tbody>
+<tbody id="tableBody"></tbody>
 </table>
 
 <div class="stats">
-<h3>Statistik Emoji</h3>
-<div class="stat-bar-container"><div class="stat-label">😊 Happy</div><div class="stat-fill stat-happy" id="bar-happy">0%</div></div>
-<div class="stat-bar-container"><div class="stat-label">😢 Sad</div><div class="stat-fill stat-sad" id="bar-sad">0%</div></div>
-<div class="stat-bar-container"><div class="stat-label">😡 Angry</div><div class="stat-fill stat-angry" id="bar-angry">0%</div></div>
-<div class="stat-bar-container"><div class="stat-label">😱 Scared</div><div class="stat-fill stat-scared" id="bar-scared">0%</div></div>
-<div class="stat-bar-container"><div class="stat-label">😴 Tired</div><div class="stat-fill stat-tired" id="bar-tired">0%</div></div>
-<div class="stat-bar-container"><div class="stat-label">🤩 Excited</div><div class="stat-fill stat-excited" id="bar-excited">0%</div></div>
+<div class="stat-title">📊 Perasaan Anak Hari Ini</div>
+<div class="stat-bar"><div class="label">😊 Senang</div><div id="happy" class="stat-fill happy">0%</div></div>
+<div class="stat-bar"><div class="label">😢 Sedih</div><div id="sad" class="stat-fill sad">0%</div></div>
+<div class="stat-bar"><div class="label">😡 Marah</div><div id="angry" class="stat-fill angry">0%</div></div>
+<div class="stat-bar"><div class="label">😱 Takut</div><div id="scared" class="stat-fill scared">0%</div></div>
+<div class="stat-bar"><div class="label">😴 Capek</div><div id="tired" class="stat-fill tired">0%</div></div>
+<div class="stat-bar"><div class="label">🤩 Semangat</div><div id="excited" class="stat-fill excited">0%</div></div>
 </div>
 
-<div style="text-align:center;margin-top:20px;"><button onclick="downloadExcel()">Download Excel</button></div>
+<div class="download-btns">
+    <button class="excel" onclick="downloadExcel()">⬇️ Download Excel</button>
+    <button class="word" onclick="downloadWord()">⬇️ Download Word</button>
+</div>
+</div>
+
+<!-- DOWNLOAD ANIMATION -->
+<div class="download-overlay" id="downloadAnim">
+    <div class="download-box">
+        <span>📥</span>
+        <p>Sedang Menyiapkan File...</p>
+    </div>
 </div>
 
 <script>
-let absensiData = JSON.parse(localStorage.getItem('absensiData'))||[];
+let absensiData = JSON.parse(localStorage.getItem("absensiData")) || [];
 
-document.getElementById('btnAbsensi').addEventListener('click',()=>{window.location.href="index.html";});
-document.getElementById('btnReset').addEventListener('click',()=>{
-    if(confirm('Yakin ingin reset semua data?')){
-        absensiData=[]; localStorage.removeItem('absensiData'); updateDashboard();
+btnAbsensi.onclick=()=>location.href="index.html";
+btnReset.onclick=()=>{
+    if(confirm("Reset semua data?")){
+        localStorage.removeItem("absensiData");
+        absensiData=[];
+        updateDashboard();
     }
-});
-
-function getLastCheckPerSiswa(data){
-    let last={};
-    data.forEach(item=>last[item.nama]=item);
-    return Object.values(last);
-}
-
-function animateBarSmooth(bar,targetPercent){
-    let width=0;
-    const step=targetPercent/50;
-    bar.style.width='0%'; bar.textContent='0%';
-    const interval=setInterval(()=>{
-        width+=step;
-        if(width>=targetPercent){ width=targetPercent; clearInterval(interval);}
-        bar.style.width=width+'%';
-        bar.textContent=Math.round(width)+'%';
-    },20);
-}
+};
 
 function updateDashboard(){
-    const tbody=document.querySelector('#absensiTable tbody'); tbody.innerHTML='';
-    let stats={'😊':0,'😢':0,'😡':0,'😱':0,'😴':0,'🤩':0};
-    absensiData.forEach(item=>stats[item.emoji]=(stats[item.emoji]||0)+1);
-    const total=absensiData.length||1;
-    getLastCheckPerSiswa(absensiData).forEach(item=>{
-        const row=document.createElement('tr');
-        row.innerHTML=`<td>${item.nama}</td><td>${item.status}</td><td>${item.waktu}</td><td>${item.emoji}</td>`;
-        tbody.appendChild(row);
+    const tbody=document.getElementById("tableBody");
+    tbody.innerHTML="";
+    let siswa={}, stats={'😊':0,'😢':0,'😡':0,'😱':0,'😴':0,'🤩':0};
+
+    absensiData.forEach(d=>{
+        if(!siswa[d.nama]) siswa[d.nama]={in:null,out:null};
+        if(d.status==="Check In") siswa[d.nama].in=d;
+        if(d.status==="Check Out") siswa[d.nama].out=d;
+        if(stats[d.emoji]!=null) stats[d.emoji]++;
     });
-    animateBarSmooth(document.getElementById('bar-happy'),Math.round((stats['😊']/total)*100));
-    animateBarSmooth(document.getElementById('bar-sad'),Math.round((stats['😢']/total)*100));
-    animateBarSmooth(document.getElementById('bar-angry'),Math.round((stats['😡']/total)*100));
-    animateBarSmooth(document.getElementById('bar-scared'),Math.round((stats['😱']/total)*100));
-    animateBarSmooth(document.getElementById('bar-tired'),Math.round((stats['😴']/total)*100));
-    animateBarSmooth(document.getElementById('bar-excited'),Math.round((stats['🤩']/total)*100));
+
+    Object.keys(siswa).forEach(n=>{
+        const m=siswa[n].in,p=siswa[n].out;
+        tbody.innerHTML+=`
+        <tr>
+            <td>${n}</td>
+            <td>${m?'<span class="badge-masuk">Check In</span>':'-'}</td>
+            <td>${m?m.waktu:'-'}</td>
+            <td>${m?m.emoji:'-'}</td>
+            <td>${p?'<span class="badge-pulang">Check Out</span>':'Belum'}</td>
+            <td>${p?p.waktu:'-'}</td>
+            <td>${p?p.emoji:'-'}</td>
+        </tr>`;
+    });
+
+    const total=Object.values(stats).reduce((a,b)=>a+b,0)||1;
+    setBar("happy",stats['😊'],total);
+    setBar("sad",stats['😢'],total);
+    setBar("angry",stats['😡'],total);
+    setBar("scared",stats['😱'],total);
+    setBar("tired",stats['😴'],total);
+    setBar("excited",stats['🤩'],total);
+}
+function setBar(id,val,total){
+    const p=Math.round((val/total)*100);
+    const bar=document.getElementById(id);
+    bar.style.width=p+"%";
+    bar.textContent=p+"%";
+}
+
+/* ===== DOWNLOAD WITH ANIMATION ===== */
+function showDownload(cb){
+    const d=document.getElementById("downloadAnim");
+    d.classList.add("active");
+    setTimeout(()=>{
+        d.classList.remove("active");
+        cb();
+    },1500);
 }
 
 function downloadExcel(){
-    if(absensiData.length===0){ alert('Tidak ada data'); return; }
-    let csv='Nama,Status,Waktu,Emoji\n';
-    absensiData.forEach(item=>csv+=`${item.nama},${item.status},${item.waktu},${item.emoji}\n`);
-    const blob=new Blob([csv],{type:'text/csv'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a'); a.href=url; a.download='absensi_sd_lazuardi.csv'; a.click(); URL.revokeObjectURL(url);
+    if(!absensiData.length)return alert("Data kosong");
+    showDownload(()=>{
+        let csv="Nama,Status,Waktu,Emoji\n";
+        absensiData.forEach(d=>csv+=`${d.nama},${d.status},${d.waktu},${d.emoji}\n`);
+        const a=document.createElement("a");
+        a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+        a.download="absensi_sd_lazuardi.csv";
+        a.click();
+    });
 }
 
-window.addEventListener('storage',()=>{
-    absensiData = JSON.parse(localStorage.getItem('absensiData'))||[];
-    updateDashboard();
-});
-window.addEventListener('absensiUpdated',()=>{
-    absensiData = JSON.parse(localStorage.getItem('absensiData'))||[];
-    updateDashboard();
-});
+function downloadWord(){
+    if(!absensiData.length)return alert("Data kosong");
+    showDownload(()=>{
+        let html="<h2>Absensi SD Lazuardi</h2><table border='1'>";
+        absensiData.forEach(d=>{
+            html+=`<tr><td>${d.nama}</td><td>${d.status}</td><td>${d.waktu}</td><td>${d.emoji}</td></tr>`;
+        });
+        html+="</table>";
+        const a=document.createElement("a");
+        a.href=URL.createObjectURL(new Blob([html],{type:"application/msword"}));
+        a.download="absensi_sd_lazuardi.doc";
+        a.click();
+    });
+}
+
+/* AUTO RESET JAM 22:00 */
+setInterval(()=>{
+    const n=new Date();
+    if(n.getHours()===22 && n.getMinutes()===0){
+        localStorage.removeItem("absensiData");
+        absensiData=[];
+        updateDashboard();
+    }
+},60000);
 
 updateDashboard();
 </script>
+
 </body>
 </html>
