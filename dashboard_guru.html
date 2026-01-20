@@ -11,42 +11,21 @@ body{
     background:linear-gradient(135deg,#64b5f6,#2196f3);
     margin:0;padding:20px;
 }
-
-/* ===== TOP BUTTON ===== */
-.top-buttons{
-    position:fixed;top:15px;right:15px;
-    display:flex;flex-direction:column;gap:10px;
-    z-index:999;
-}
-.top-buttons button{
-    padding:10px 18px;
-    border:none;border-radius:12px;
-    font-weight:bold;cursor:pointer;color:white;
-}
-#btnAbsensi{background:#2196f3}
-#btnReset{background:#f44336}
-
-/* ===== CONTAINER ===== */
 .container{
     max-width:1200px;
-    margin:90px auto;
+    margin:80px auto;
     background:#f0f8ff;
-    border-radius:18px;
+    border-radius:14px;
     padding:25px;
-    box-shadow:0 6px 25px rgba(0,0,0,.25);
-    animation: slideCute .8s ease;
+    box-shadow:0 6px 20px rgba(0,0,0,.25);
 }
-h2{
-    text-align:center;
-    color:#0d47a1;
-    animation: float 3s ease-in-out infinite;
-}
+h2{text-align:center;color:#0d47a1}
 
-/* ===== TABLE ===== */
 table{
     width:100%;
     border-collapse:collapse;
     margin-top:20px;
+    font-size:15px;
 }
 th,td{
     padding:12px;
@@ -55,34 +34,38 @@ th,td{
 }
 th{background:#2196f3;color:white}
 
-/* ===== BADGE ===== */
 .badge-masuk{
     background:#4caf50;color:white;
-    padding:5px 10px;border-radius:10px;font-weight:bold;
+    padding:5px 10px;border-radius:6px;font-weight:bold;
 }
 .badge-pulang{
     background:#ff7043;color:white;
-    padding:5px 10px;border-radius:10px;font-weight:bold;
+    padding:5px 10px;border-radius:6px;font-weight:bold;
 }
+.belum{color:#f44336;font-weight:bold}
 
-/* ===== STATS ===== */
 .stats{margin-top:35px}
 .stat-title{font-weight:bold;color:#0d47a1;margin-bottom:10px}
+
 .stat-bar{
-    background:#e3f2fd;border-radius:10px;
-    overflow:hidden;height:30px;margin-bottom:12px;
+    background:#e3f2fd;
+    border-radius:8px;
+    overflow:hidden;
+    height:30px;
+    margin-bottom:10px;
     position:relative;
 }
 .stat-fill{
-    height:100%;width:0%;
-    color:white;text-align:right;
-    padding-right:10px;line-height:30px;
-    font-weight:bold;transition:width .8s;
+    height:100%;
+    width:0%;
+    color:white;
+    text-align:right;
+    padding-right:10px;
+    line-height:30px;
+    font-weight:bold;
+    transition:width .8s;
 }
-.label{
-    position:absolute;left:10px;
-    color:#0d47a1;font-weight:bold;
-}
+.label{position:absolute;left:10px;color:#0d47a1;font-weight:bold}
 
 .happy{background:#42a5f5}
 .sad{background:#64b5f6}
@@ -91,77 +74,28 @@ th{background:#2196f3;color:white}
 .tired{background:#ffb74d}
 .excited{background:#ff8a65}
 
-/* ===== DOWNLOAD BUTTON ===== */
+.top-buttons{
+    position:fixed;top:15px;right:15px;
+    display:flex;flex-direction:column;gap:10px;
+}
+.top-buttons button{
+    padding:10px 18px;border:none;border-radius:8px;
+    font-weight:bold;cursor:pointer;color:white;
+}
+#btnAbsensi{background:#2196f3}
+#btnReset{background:#f44336}
+
 .download-btns{
-    text-align:center;
-    margin-top:30px;
+    text-align:center;margin-top:25px;
 }
 .download-btns button{
-    padding:12px 22px;
-    border:none;border-radius:14px;
-    font-weight:bold;
-    cursor:pointer;
-    color:white;
-    margin:8px;
-    font-size:16px;
-    transition:.3s;
+    padding:10px 18px;
+    border:none;border-radius:8px;
+    font-weight:bold;cursor:pointer;color:white;
+    margin:5px;
 }
 .excel{background:#4caf50}
 .word{background:#1976d2}
-.download-btns button:hover{
-    transform:scale(1.08);
-}
-
-/* ===== DOWNLOAD ANIMATION ===== */
-.download-overlay{
-    position:fixed;inset:0;
-    background:rgba(33,150,243,.85);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-    opacity:0;
-    pointer-events:none;
-    transition:.3s;
-}
-.download-overlay.active{
-    opacity:1;
-    pointer-events:auto;
-}
-.download-box{
-    background:white;
-    padding:30px;
-    border-radius:18px;
-    text-align:center;
-    animation: pop .6s ease;
-}
-.download-box span{
-    font-size:60px;
-    display:block;
-    animation: bounce 1.2s infinite;
-}
-.download-box p{
-    font-weight:bold;
-    color:#0d47a1;
-}
-
-/* ===== ANIMASI ===== */
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-6px)}
-}
-@keyframes slideCute{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:translateY(0)}
-}
-@keyframes pop{
-  from{transform:scale(.5);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-@keyframes bounce{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-10px)}
-}
 </style>
 </head>
 
@@ -173,7 +107,7 @@ th{background:#2196f3;color:white}
 </div>
 
 <div class="container">
-<h2>🏫 Dashboard Kehadiran SD Lazuardi 🌟</h2>
+<h2>Dashboard Guru - SD Lazuardi</h2>
 
 <table>
 <thead>
@@ -191,13 +125,14 @@ th{background:#2196f3;color:white}
 </table>
 
 <div class="stats">
-<div class="stat-title">📊 Perasaan Anak Hari Ini</div>
-<div class="stat-bar"><div class="label">😊 Senang</div><div id="happy" class="stat-fill happy">0%</div></div>
-<div class="stat-bar"><div class="label">😢 Sedih</div><div id="sad" class="stat-fill sad">0%</div></div>
-<div class="stat-bar"><div class="label">😡 Marah</div><div id="angry" class="stat-fill angry">0%</div></div>
-<div class="stat-bar"><div class="label">😱 Takut</div><div id="scared" class="stat-fill scared">0%</div></div>
-<div class="stat-bar"><div class="label">😴 Capek</div><div id="tired" class="stat-fill tired">0%</div></div>
-<div class="stat-bar"><div class="label">🤩 Semangat</div><div id="excited" class="stat-fill excited">0%</div></div>
+<div class="stat-title">📊 Statistik Emoji</div>
+
+<div class="stat-bar"><div class="label">😊 Happy</div><div id="happy" class="stat-fill happy">0%</div></div>
+<div class="stat-bar"><div class="label">😢 Sad</div><div id="sad" class="stat-fill sad">0%</div></div>
+<div class="stat-bar"><div class="label">😡 Angry</div><div id="angry" class="stat-fill angry">0%</div></div>
+<div class="stat-bar"><div class="label">😱 Scared</div><div id="scared" class="stat-fill scared">0%</div></div>
+<div class="stat-bar"><div class="label">😴 Tired</div><div id="tired" class="stat-fill tired">0%</div></div>
+<div class="stat-bar"><div class="label">🤩 Excited</div><div id="excited" class="stat-fill excited">0%</div></div>
 </div>
 
 <div class="download-btns">
@@ -206,19 +141,11 @@ th{background:#2196f3;color:white}
 </div>
 </div>
 
-<!-- DOWNLOAD ANIMATION -->
-<div class="download-overlay" id="downloadAnim">
-    <div class="download-box">
-        <span>📥</span>
-        <p>Sedang Menyiapkan File...</p>
-    </div>
-</div>
-
 <script>
 let absensiData = JSON.parse(localStorage.getItem("absensiData")) || [];
 
-btnAbsensi.onclick=()=>location.href="index.html";
-btnReset.onclick=()=>{
+document.getElementById("btnAbsensi").onclick=()=>location.href="index.html";
+document.getElementById("btnReset").onclick=()=>{
     if(confirm("Reset semua data?")){
         localStorage.removeItem("absensiData");
         absensiData=[];
@@ -226,30 +153,60 @@ btnReset.onclick=()=>{
     }
 };
 
+/* ===== GABUNG DATA SESUAI DASHBOARD ===== */
+function buildDashboardData(){
+    let siswa={};
+
+    absensiData.forEach(d=>{
+        if(!siswa[d.nama]){
+            siswa[d.nama]={
+                nama:d.nama,
+                in_status:'-',
+                in_waktu:'-',
+                in_emoji:'-',
+                out_status:'Belum',
+                out_waktu:'-',
+                out_emoji:'-'
+            };
+        }
+        if(d.status==="Check In"){
+            siswa[d.nama].in_status="Check In";
+            siswa[d.nama].in_waktu=d.waktu;
+            siswa[d.nama].in_emoji=d.emoji;
+        }
+        if(d.status==="Check Out"){
+            siswa[d.nama].out_status="Check Out";
+            siswa[d.nama].out_waktu=d.waktu;
+            siswa[d.nama].out_emoji=d.emoji;
+        }
+    });
+
+    return Object.values(siswa);
+}
+
 function updateDashboard(){
     const tbody=document.getElementById("tableBody");
     tbody.innerHTML="";
-    let siswa={}, stats={'😊':0,'😢':0,'😡':0,'😱':0,'😴':0,'🤩':0};
 
-    absensiData.forEach(d=>{
-        if(!siswa[d.nama]) siswa[d.nama]={in:null,out:null};
-        if(d.status==="Check In") siswa[d.nama].in=d;
-        if(d.status==="Check Out") siswa[d.nama].out=d;
-        if(stats[d.emoji]!=null) stats[d.emoji]++;
-    });
+    let stats={'😊':0,'😢':0,'😡':0,'😱':0,'😴':0,'🤩':0};
 
-    Object.keys(siswa).forEach(n=>{
-        const m=siswa[n].in,p=siswa[n].out;
+    const data=buildDashboardData();
+
+    data.forEach(d=>{
         tbody.innerHTML+=`
         <tr>
-            <td>${n}</td>
-            <td>${m?'<span class="badge-masuk">Check In</span>':'-'}</td>
-            <td>${m?m.waktu:'-'}</td>
-            <td>${m?m.emoji:'-'}</td>
-            <td>${p?'<span class="badge-pulang">Check Out</span>':'Belum'}</td>
-            <td>${p?p.waktu:'-'}</td>
-            <td>${p?p.emoji:'-'}</td>
+            <td>${d.nama}</td>
+            <td>${d.in_status==='Check In'?'<span class="badge-masuk">Check In</span>':'-'}</td>
+            <td>${d.in_waktu}</td>
+            <td>${d.in_emoji}</td>
+            <td>${d.out_status==='Check Out'?'<span class="badge-pulang">Check Out</span>':'<span class="belum">Belum</span>'}</td>
+            <td>${d.out_waktu}</td>
+            <td>${d.out_emoji}</td>
         </tr>`;
+    });
+
+    absensiData.forEach(d=>{
+        if(stats[d.emoji]!==undefined) stats[d.emoji]++;
     });
 
     const total=Object.values(stats).reduce((a,b)=>a+b,0)||1;
@@ -260,6 +217,7 @@ function updateDashboard(){
     setBar("tired",stats['😴'],total);
     setBar("excited",stats['🤩'],total);
 }
+
 function setBar(id,val,total){
     const p=Math.round((val/total)*100);
     const bar=document.getElementById(id);
@@ -267,52 +225,71 @@ function setBar(id,val,total){
     bar.textContent=p+"%";
 }
 
-/* ===== DOWNLOAD WITH ANIMATION ===== */
-function showDownload(cb){
-    const d=document.getElementById("downloadAnim");
-    d.classList.add("active");
-    setTimeout(()=>{
-        d.classList.remove("active");
-        cb();
-    },1500);
-}
-
+/* ===== DOWNLOAD EXCEL ===== */
 function downloadExcel(){
-    if(!absensiData.length)return alert("Data kosong");
-    showDownload(()=>{
-        let csv="Nama,Status,Waktu,Emoji\n";
-        absensiData.forEach(d=>csv+=`${d.nama},${d.status},${d.waktu},${d.emoji}\n`);
-        const a=document.createElement("a");
-        a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
-        a.download="absensi_sd_lazuardi.csv";
-        a.click();
+    if(absensiData.length===0){alert("Tidak ada data");return;}
+
+    const data=buildDashboardData();
+    let csv=`Nama,Check In Status,Check In Waktu,Check In Emoji,Check Out Status,Check Out Waktu,Check Out Emoji\n`;
+
+    data.forEach(d=>{
+        csv+=`${d.nama},${d.in_status},${d.in_waktu},${d.in_emoji},${d.out_status},${d.out_waktu},${d.out_emoji}\n`;
     });
+
+    const blob=new Blob([csv],{type:"text/csv"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;a.download="dashboard_absensi_sd_lazuardi.csv";a.click();
+    URL.revokeObjectURL(url);
 }
 
+/* ===== DOWNLOAD WORD ===== */
 function downloadWord(){
-    if(!absensiData.length)return alert("Data kosong");
-    showDownload(()=>{
-        let html="<h2>Absensi SD Lazuardi</h2><table border='1'>";
-        absensiData.forEach(d=>{
-            html+=`<tr><td>${d.nama}</td><td>${d.status}</td><td>${d.waktu}</td><td>${d.emoji}</td></tr>`;
-        });
-        html+="</table>";
-        const a=document.createElement("a");
-        a.href=URL.createObjectURL(new Blob([html],{type:"application/msword"}));
-        a.download="absensi_sd_lazuardi.doc";
-        a.click();
+    if(absensiData.length===0){alert("Tidak ada data");return;}
+
+    const data=buildDashboardData();
+    let html=`
+    <h2 style="text-align:center;">Dashboard Absensi SD Lazuardi</h2>
+    <table border="1" cellpadding="8" cellspacing="0" width="100%">
+    <tr>
+        <th rowspan="2">Nama</th>
+        <th colspan="3">Check In</th>
+        <th colspan="3">Check Out</th>
+    </tr>
+    <tr>
+        <th>Status</th><th>Waktu</th><th>Emoji</th>
+        <th>Status</th><th>Waktu</th><th>Emoji</th>
+    </tr>`;
+
+    data.forEach(d=>{
+        html+=`
+        <tr>
+            <td>${d.nama}</td>
+            <td>${d.in_status}</td>
+            <td>${d.in_waktu}</td>
+            <td>${d.in_emoji}</td>
+            <td>${d.out_status}</td>
+            <td>${d.out_waktu}</td>
+            <td>${d.out_emoji}</td>
+        </tr>`;
     });
+
+    html+=`</table>`;
+
+    const blob=new Blob(
+        ['<html><body>'+html+'</body></html>'],
+        {type:"application/msword"}
+    );
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;a.download="dashboard_absensi_sd_lazuardi.doc";a.click();
+    URL.revokeObjectURL(url);
 }
 
-/* AUTO RESET JAM 22:00 */
-setInterval(()=>{
-    const n=new Date();
-    if(n.getHours()===22 && n.getMinutes()===0){
-        localStorage.removeItem("absensiData");
-        absensiData=[];
-        updateDashboard();
-    }
-},60000);
+window.addEventListener("storage",()=>{
+    absensiData=JSON.parse(localStorage.getItem("absensiData"))||[];
+    updateDashboard();
+});
 
 updateDashboard();
 </script>
