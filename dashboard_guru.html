@@ -139,13 +139,14 @@ th{background:#2196f3;color:white}
     <button class="excel" onclick="downloadExcel()">⬇️ Download Excel</button>
     <button class="word" onclick="downloadWord()">⬇️ Download Word</button>
 </div>
+
 </div>
 
 <script>
 let absensiData = JSON.parse(localStorage.getItem("absensiData")) || [];
 
-document.getElementById("btnAbsensi").onclick=()=>location.href="index.html";
-document.getElementById("btnReset").onclick=()=>{
+document.getElementById("btnAbsensi").onclick = ()=>location.href="index.html";
+document.getElementById("btnReset").onclick = ()=>{
     if(confirm("Reset semua data?")){
         localStorage.removeItem("absensiData");
         absensiData=[];
@@ -153,60 +154,34 @@ document.getElementById("btnReset").onclick=()=>{
     }
 };
 
-/* ===== GABUNG DATA SESUAI DASHBOARD ===== */
-function buildDashboardData(){
-    let siswa={};
-
-    absensiData.forEach(d=>{
-        if(!siswa[d.nama]){
-            siswa[d.nama]={
-                nama:d.nama,
-                in_status:'-',
-                in_waktu:'-',
-                in_emoji:'-',
-                out_status:'Belum',
-                out_waktu:'-',
-                out_emoji:'-'
-            };
-        }
-        if(d.status==="Check In"){
-            siswa[d.nama].in_status="Check In";
-            siswa[d.nama].in_waktu=d.waktu;
-            siswa[d.nama].in_emoji=d.emoji;
-        }
-        if(d.status==="Check Out"){
-            siswa[d.nama].out_status="Check Out";
-            siswa[d.nama].out_waktu=d.waktu;
-            siswa[d.nama].out_emoji=d.emoji;
-        }
-    });
-
-    return Object.values(siswa);
-}
-
 function updateDashboard(){
     const tbody=document.getElementById("tableBody");
     tbody.innerHTML="";
 
+    let siswa={};
     let stats={'😊':0,'😢':0,'😡':0,'😱':0,'😴':0,'🤩':0};
 
-    const data=buildDashboardData();
-
-    data.forEach(d=>{
-        tbody.innerHTML+=`
-        <tr>
-            <td>${d.nama}</td>
-            <td>${d.in_status==='Check In'?'<span class="badge-masuk">Check In</span>':'-'}</td>
-            <td>${d.in_waktu}</td>
-            <td>${d.in_emoji}</td>
-            <td>${d.out_status==='Check Out'?'<span class="badge-pulang">Check Out</span>':'<span class="belum">Belum</span>'}</td>
-            <td>${d.out_waktu}</td>
-            <td>${d.out_emoji}</td>
-        </tr>`;
+    absensiData.forEach(d=>{
+        if(!siswa[d.nama]) siswa[d.nama]={checkin:null,checkout:null};
+        if(d.status==="Check In") siswa[d.nama].checkin=d;
+        if(d.status==="Check Out") siswa[d.nama].checkout=d;
+        if(stats[d.emoji]!==undefined) stats[d.emoji]++;
     });
 
-    absensiData.forEach(d=>{
-        if(stats[d.emoji]!==undefined) stats[d.emoji]++;
+    Object.keys(siswa).forEach(nama=>{
+        const m=siswa[nama].checkin;
+        const p=siswa[nama].checkout;
+
+        tbody.innerHTML+=`
+        <tr>
+            <td>${nama}</td>
+            <td>${m?'<span class="badge-masuk">Check In</span>':'<span class="belum">–</span>'}</td>
+            <td>${m?m.waktu:'-'}</td>
+            <td>${m?m.emoji:'-'}</td>
+            <td>${p?'<span class="badge-pulang">Check Out</span>':'<span class="belum">Belum</span>'}</td>
+            <td>${p?p.waktu:'-'}</td>
+            <td>${p?p.emoji:'-'}</td>
+        </tr>`;
     });
 
     const total=Object.values(stats).reduce((a,b)=>a+b,0)||1;
@@ -228,18 +203,14 @@ function setBar(id,val,total){
 /* ===== DOWNLOAD EXCEL ===== */
 function downloadExcel(){
     if(absensiData.length===0){alert("Tidak ada data");return;}
-
-    const data=buildDashboardData();
-    let csv=`Nama,Check In Status,Check In Waktu,Check In Emoji,Check Out Status,Check Out Waktu,Check Out Emoji\n`;
-
-    data.forEach(d=>{
-        csv+=`${d.nama},${d.in_status},${d.in_waktu},${d.in_emoji},${d.out_status},${d.out_waktu},${d.out_emoji}\n`;
+    let csv="Nama,Status,Waktu,Emoji\n";
+    absensiData.forEach(d=>{
+        csv+=`${d.nama},${d.status},${d.waktu},${d.emoji}\n`;
     });
-
     const blob=new Blob([csv],{type:"text/csv"});
     const url=URL.createObjectURL(blob);
     const a=document.createElement("a");
-    a.href=url;a.download="dashboard_absensi_sd_lazuardi.csv";a.click();
+    a.href=url;a.download="absensi_sd_lazuardi.csv";a.click();
     URL.revokeObjectURL(url);
 }
 
@@ -247,30 +218,16 @@ function downloadExcel(){
 function downloadWord(){
     if(absensiData.length===0){alert("Tidak ada data");return;}
 
-    const data=buildDashboardData();
-    let html=`
-    <h2 style="text-align:center;">Dashboard Absensi SD Lazuardi</h2>
-    <table border="1" cellpadding="8" cellspacing="0" width="100%">
-    <tr>
-        <th rowspan="2">Nama</th>
-        <th colspan="3">Check In</th>
-        <th colspan="3">Check Out</th>
-    </tr>
-    <tr>
-        <th>Status</th><th>Waktu</th><th>Emoji</th>
-        <th>Status</th><th>Waktu</th><th>Emoji</th>
-    </tr>`;
+    let html=`<h2>Absensi SD Lazuardi</h2>
+    <table border="1" cellpadding="8" cellspacing="0">
+    <tr><th>Nama</th><th>Status</th><th>Waktu</th><th>Emoji</th></tr>`;
 
-    data.forEach(d=>{
-        html+=`
-        <tr>
-            <td>${d.nama}</td>
-            <td>${d.in_status}</td>
-            <td>${d.in_waktu}</td>
-            <td>${d.in_emoji}</td>
-            <td>${d.out_status}</td>
-            <td>${d.out_waktu}</td>
-            <td>${d.out_emoji}</td>
+    absensiData.forEach(d=>{
+        html+=`<tr>
+        <td>${d.nama}</td>
+        <td>${d.status}</td>
+        <td>${d.waktu}</td>
+        <td>${d.emoji}</td>
         </tr>`;
     });
 
@@ -282,7 +239,7 @@ function downloadWord(){
     );
     const url=URL.createObjectURL(blob);
     const a=document.createElement("a");
-    a.href=url;a.download="dashboard_absensi_sd_lazuardi.doc";a.click();
+    a.href=url;a.download="absensi_sd_lazuardi.doc";a.click();
     URL.revokeObjectURL(url);
 }
 
