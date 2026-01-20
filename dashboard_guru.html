@@ -6,34 +6,76 @@
 <title>Dashboard Guru - SD Lazuardi</title>
 
 <style>
+/* ===== BODY & BACKGROUND LOGO ===== */
 body{
     font-family:'Segoe UI',sans-serif;
     background:linear-gradient(135deg,#64b5f6,#2196f3);
     margin:0;padding:20px;
+    perspective:1200px;
+    overflow-x:hidden;
+    position:relative;
 }
+
+/* BACKGROUND LOGO LAZUARDI */
+body::before{
+    content:'';
+    position:fixed;
+    top:50%;
+    left:50%;
+    width:400px;
+    height:400px;
+    background:url('logo_lazuardi.png') no-repeat center/contain;
+    transform:translate(-50%,-50%) rotateY(0deg) rotateX(0deg);
+    animation:logo3D 30s linear infinite;
+    opacity:0.08;
+    pointer-events:none;
+    z-index:0;
+}
+
+@keyframes logo3D{
+    0%{transform:translate(-50%,-50%) rotateY(0deg) rotateX(0deg);}
+    25%{transform:translate(-50%,-50%) rotateY(90deg) rotateX(20deg);}
+    50%{transform:translate(-50%,-50%) rotateY(180deg) rotateX(0deg);}
+    75%{transform:translate(-50%,-50%) rotateY(270deg) rotateX(-20deg);}
+    100%{transform:translate(-50%,-50%) rotateY(360deg) rotateX(0deg);}
+}
+
+/* ===== CONTAINER ===== */
 .container{
     max-width:1200px;
     margin:80px auto;
-    background:#f0f8ff;
-    border-radius:14px;
+    background:#f0f8ffcc;
+    border-radius:18px;
     padding:25px;
-    box-shadow:0 6px 20px rgba(0,0,0,.25);
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    position:relative;
+    z-index:1;
+    transform-style:preserve-3d;
+    animation:fadeInUp 1s ease;
 }
-h2{text-align:center;color:#0d47a1}
+h2{text-align:center;color:#0d47a1;font-size:2em;}
 
+/* ===== TABLE ===== */
 table{
     width:100%;
     border-collapse:collapse;
     margin-top:20px;
-    font-size:15px;
+    font-size:16px;
+    transform-style:preserve-3d;
 }
 th,td{
     padding:12px;
     border:1px solid #90caf9;
     text-align:center;
+    transition:transform .3s;
 }
-th{background:#2196f3;color:white}
+th{background:#2196f3;color:white;}
 
+th:hover,td:hover{
+    transform:scale(1.05) rotateX(5deg) rotateY(5deg);
+}
+
+/* BADGES */
 .badge-masuk{
     background:#4caf50;color:white;
     padding:5px 10px;border-radius:6px;font-weight:bold;
@@ -44,6 +86,7 @@ th{background:#2196f3;color:white}
 }
 .belum{color:#f44336;font-weight:bold}
 
+/* ===== STATISTICS ===== */
 .stats{margin-top:35px}
 .stat-title{font-weight:bold;color:#0d47a1;margin-bottom:10px}
 
@@ -51,9 +94,10 @@ th{background:#2196f3;color:white}
     background:#e3f2fd;
     border-radius:8px;
     overflow:hidden;
-    height:30px;
-    margin-bottom:10px;
+    height:35px;
+    margin-bottom:15px;
     position:relative;
+    perspective:800px;
 }
 .stat-fill{
     height:100%;
@@ -61,11 +105,12 @@ th{background:#2196f3;color:white}
     color:white;
     text-align:right;
     padding-right:10px;
-    line-height:30px;
+    line-height:35px;
     font-weight:bold;
-    transition:width .8s;
+    transition:width .8s cubic-bezier(.42,0,.58,1);
+    transform:rotateY(0deg);
 }
-.label{position:absolute;left:10px;color:#0d47a1;font-weight:bold}
+.label{position:absolute;left:10px;color:#0d47a1;font-weight:bold;z-index:1;}
 
 .happy{background:#42a5f5}
 .sad{background:#64b5f6}
@@ -74,28 +119,47 @@ th{background:#2196f3;color:white}
 .tired{background:#ffb74d}
 .excited{background:#ff8a65}
 
+/* ===== TOP BUTTONS ===== */
 .top-buttons{
     position:fixed;top:15px;right:15px;
     display:flex;flex-direction:column;gap:10px;
+    z-index:10;
 }
 .top-buttons button{
-    padding:10px 18px;border:none;border-radius:8px;
+    padding:12px 20px;border:none;border-radius:12px;
     font-weight:bold;cursor:pointer;color:white;
+    box-shadow:0 4px 15px rgba(0,0,0,.3);
+    transition:.3s;
+}
+.top-buttons button:hover{
+    transform:scale(1.1) rotateY(5deg);
 }
 #btnAbsensi{background:#2196f3}
 #btnReset{background:#f44336}
 
+/* DOWNLOAD BUTTONS */
 .download-btns{
     text-align:center;margin-top:25px;
 }
 .download-btns button{
-    padding:10px 18px;
-    border:none;border-radius:8px;
+    padding:12px 25px;border:none;border-radius:12px;
     font-weight:bold;cursor:pointer;color:white;
     margin:5px;
+    box-shadow:0 4px 15px rgba(0,0,0,.3);
+    transition:.4s;
+}
+.download-btns button:hover{
+    transform:scale(1.1) rotateY(10deg) rotateX(5deg);
 }
 .excel{background:#4caf50}
 .word{background:#1976d2}
+
+/* ===== ANIMASI ===== */
+@keyframes fadeInUp{
+    from{opacity:0; transform:translateY(30px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
 </style>
 </head>
 
@@ -126,7 +190,6 @@ th{background:#2196f3;color:white}
 
 <div class="stats">
 <div class="stat-title">📊 Statistik Emoji</div>
-
 <div class="stat-bar"><div class="label">😊 Happy</div><div id="happy" class="stat-fill happy">0%</div></div>
 <div class="stat-bar"><div class="label">😢 Sad</div><div id="sad" class="stat-fill sad">0%</div></div>
 <div class="stat-bar"><div class="label">😡 Angry</div><div id="angry" class="stat-fill angry">0%</div></div>
@@ -139,7 +202,6 @@ th{background:#2196f3;color:white}
     <button class="excel" onclick="downloadExcel()">⬇️ Download Excel</button>
     <button class="word" onclick="downloadWord()">⬇️ Download Word</button>
 </div>
-
 </div>
 
 <script>
@@ -210,14 +272,15 @@ function downloadExcel(){
     const blob=new Blob([csv],{type:"text/csv"});
     const url=URL.createObjectURL(blob);
     const a=document.createElement("a");
-    a.href=url;a.download="absensi_sd_lazuardi.csv";a.click();
+    a.href=url;a.download="absensi_sd_lazuardi.csv";
+    a.click();
     URL.revokeObjectURL(url);
+    animateDownload();
 }
 
 /* ===== DOWNLOAD WORD ===== */
 function downloadWord(){
     if(absensiData.length===0){alert("Tidak ada data");return;}
-
     let html=`<h2>Absensi SD Lazuardi</h2>
     <table border="1" cellpadding="8" cellspacing="0">
     <tr><th>Nama</th><th>Status</th><th>Waktu</th><th>Emoji</th></tr>`;
@@ -230,7 +293,6 @@ function downloadWord(){
         <td>${d.emoji}</td>
         </tr>`;
     });
-
     html+=`</table>`;
 
     const blob=new Blob(
@@ -239,8 +301,38 @@ function downloadWord(){
     );
     const url=URL.createObjectURL(blob);
     const a=document.createElement("a");
-    a.href=url;a.download="absensi_sd_lazuardi.doc";a.click();
+    a.href=url;a.download="absensi_sd_lazuardi.doc";
+    a.click();
     URL.revokeObjectURL(url);
+    animateDownload();
+}
+
+/* ===== DOWNLOAD ANIMATION ===== */
+function animateDownload(){
+    const anim=document.createElement('div');
+    anim.textContent="📦 File Sedang Diunduh...";
+    anim.style.position="fixed";
+    anim.style.top="50%";
+    anim.style.left="50%";
+    anim.style.transform="translate(-50%,-50%) scale(0)";
+    anim.style.padding="15px 25px";
+    anim.style.background="#4caf50";
+    anim.style.color="white";
+    anim.style.fontWeight="bold";
+    anim.style.borderRadius="12px";
+    anim.style.boxShadow="0 4px 15px rgba(0,0,0,.3)";
+    anim.style.zIndex=9999;
+    anim.style.transition="transform .5s ease, opacity .5s ease";
+    document.body.appendChild(anim);
+    requestAnimationFrame(()=>{
+        anim.style.transform="translate(-50%,-50%) scale(1)";
+        anim.style.opacity="1";
+    });
+    setTimeout(()=>{
+        anim.style.transform="translate(-50%,-50%) scale(0)";
+        anim.style.opacity="0";
+        setTimeout(()=>document.body.removeChild(anim),500);
+    },1200);
 }
 
 window.addEventListener("storage",()=>{
